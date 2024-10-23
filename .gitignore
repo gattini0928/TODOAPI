@@ -1,0 +1,35 @@
+# Sistema operacional
+*.DS_Store
+*.log
+*.pot
+*.pyc
+*.swp
+*.sqlite3
+*.pyo
+__pycache__/
+
+# Diretórios de ambientes virtuais
+env/
+venv/
+ENV/
+.venv/
+ENV*/
+
+# Diretórios de IDEs
+.vscode/
+.idea/
+
+# Arquivos relacionados ao Django
+*.pyc
+*.pyo
+*.pyd
+*.env
+
+# Arquivos de migrações do Django
+**/migrations/**
+
+# Arquivos do banco de dados local (caso use SQLite para desenvolvimento)
+db.sqlite3
+
+# Arquivos de configurações locais
+/local_settings.py

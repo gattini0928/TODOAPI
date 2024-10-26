@@ -1,18 +1,77 @@
-<!DOCTYPE html>
+{% extends 'base.html' %}
 {% load static %} 
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TODOAPI</title>
-    <link rel="stylesheet" href="{% static  'css/homepage.css' %}">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
-</head>
-<body>
-    <h1>{{Hello}}</h1>
-    <a href="/admin/">Admin</a>
+{% block title %} TODOAPI {% endblock %}
 
-</body>
-</html>
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/homepage.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="container-page">
+        {% if messages %}
+            <div class="container-messages">
+                {% for message in messages %}
+                    <p class="message">{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+        
+        <div class="container-forms">
+            <!-- Primeira Coluna: Formulário de adicionar tarefa -->
+            <div class="container-form-1">
+                <form action="{% url 'add_task' %}" method="POST" id="addTaskForm">
+                    {% csrf_token %}
+                    <div class="form-inputs-labels">
+                        <label for="name">Title</label>
+                        <input type="text" name="name" required>
+                    </div>
+                    <div class="form-inputs-labels">
+                        <label for="category">Category</label>
+                        <input type="text" name="category" required>
+                    </div>
+                    <div class="form-inputs-labels">
+                        <label for="priority">Priority</label>
+                        <input type="number" name="priority" step="0.1" min="0" required>
+                    </div>
+                    <div class="form-inputs-labels">
+                        <label for="due_date">Due Date</label>
+                        <input type="date" name="due_date">
+                    </div>
+                    <div class="form-inputs-labels">
+                        <label for="status">Status</label>
+                        <input type="text" name="status">
+                    </div>
+                    <button type="submit">Create</button>
+                </form>
+            </div>
+
+            <!-- Segunda Coluna: Formulário para futuras funções -->
+            <div class="container-form-2">
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    <label for="category">Category</label>
+                    <input type="text" name="category">
+                    <label for="priority">Priority</label>
+                    <input type="number" name="priority" min="0">
+                    <button type="submit">Create</button>
+                </form>
+            </div>
+
+            <!-- Terceira Coluna: Formulário para futuras funções -->
+            <div class="container-form-3">
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    <label for="category">Category</label>
+                    <input type="text" name="category">
+                    <label for="priority">Priority</label>
+                    <input type="number" name="priority" min="0">
+                    <button type="submit">Create</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <h2>Enjoy!</h2>
+    </footer>
+{% endblock %}

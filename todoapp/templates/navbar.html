@@ -1,7 +1,9 @@
 {% load static %}
 <header> 
     <nav>
-        <h1>TODO API</h1>
+        <a class="a-title" href="{% url 'homepage' %}">
+            <h1>TODO API</h1>
+        </a>
         <div class="container-links">
             <a href="{% url 'todopainel' %}">Your Todos</a>
             <a href="{% url 'signin' %}">Login</a>

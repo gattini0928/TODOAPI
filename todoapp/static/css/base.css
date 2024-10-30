@@ -9,11 +9,11 @@ html {
 }
 
 body {
-  font-family: 'Roboto Mono', sans-serif;
+  font-family: 'Inter', sans-serif;
   color: #fff;
   font-size: 1.6rem;
   line-height: 1.4;
-  background-color: rgb(19, 19, 19);
+  background-color: rgb(0, 0, 0);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -30,9 +30,7 @@ header {
   align-items: center;
   justify-content: center;
   background-color: rgb(32, 32, 32);
-  border-bottom-left-radius: 50%;
-  border-bottom-right-radius: 50%;
-  border: solid 1px rgba(11, 15, 30, 0.70);
+  border: solid 1px rgba(0, 0, 0, 0.70);
   box-shadow: 0 0 0.8rem 0.4rem rgba(0, 0, 0, 0.24);
   position: sticky;
   z-index: 1;
@@ -52,6 +50,7 @@ nav {
     gap: 5rem;
     padding: 1rem;
     width: 80%;
+    margin: 0 auto;
 }
 
 .container-links {
@@ -61,18 +60,18 @@ nav {
     text-align: center;
     gap: 2rem;
 }
-
+.a-title {
+  text-decoration:none;
+}
 .container-links a {
     text-decoration: none;
     color: whitesmoke;
     font-weight: 500;
     font-size: 2rem;
     padding: 0 .5rem;
-    background-color: rgb(19, 19, 19);
     border-radius: 0.5rem;
 }
-
+ 
 .container-links a:hover{
-    color: white;
-    font-weight: 800;
+    color: rgb(24, 200, 118);
 }

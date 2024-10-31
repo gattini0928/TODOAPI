@@ -6,73 +6,61 @@ from django.contrib.auth.password_validation import validate_password
 class ValidationTests(TestCase):
     def test_validate_name_success(self):
         name = 'Gabriel Gattini'
-        self.assertEqual(validate_name(name), name.strip())
+        self.assertEqual(
+            validate_name(name),
+            name.strip(),
+            msg=f"Expected name '{name.strip()}', but got a validation error"
+        )
 
     def test_validate_name_error(self):
-        with self.assertRaises(ValidationError):
-            validate_name('Gabriel')
-
-        with self.assertRaises(ValidationError):
-            validate_name(' ')
-
-        with self.assertRaises(ValidationError):
-            validate_name('G')
+        names_to_test = ['Gabriel', ' ', 'G']
+        for name in names_to_test:
+            with self.assertRaises(ValidationError, msg=f"Name '{name}' should raise ValidationError"):
+                validate_name(name)
 
     def test_validate_password_success(self):
         password = 'Happy0928*'
-        self.assertEqual(validate_password(password))
+        try:
+            validate_password(password)
+            print(f"Password '{password}' passed validation.")  # Debug info
+        except ValidationError as e:
+            print(f"Password '{password}' failed validation: {e}")
+            raise
 
     def test_validate_password_error(self):
-        with self.assertRaises(ValidationError):
-            validate_password('happy0928*')
-
-        with self.assertRaises(ValidationError):
-            validate_password('Happy0928')
-
-        with self.assertRaises(ValidationError):
-            validate_password('happy')
-        
-        with self.assertRaises(ValidationError):
-            validate_password('HAPPY')
-
-        with self.assertRaises(ValidationError):
-            validate_password('0928')
-
-        with self.assertRaises(ValidationError):
-            validate_password('*&&')
-
-        with self.assertRaises(ValidationError):
-            validate_password(' ')
-
+        invalid_passwords = ['happy0928*', 'Happy0928', 'happy', 'HAPPY', '0928', '*&&', ' ']
+        for password in invalid_passwords:
+            with self.assertRaises(ValidationError, msg=f"Password '{password}' should raise ValidationError"):
+                validate_password(password)
 
     def test_validate_email_success(self):
         email = 'gabrielgattini659@gmail.com'
-        self.assertEqual(validate_email(email))
+        try:
+            validate_email(email)
+            print(f"Email '{email}' passed validation.")  # Debug info
+        except ValidationError as e:
+            print(f"Email '{email}' failed validation: {e}")
+            raise
 
     def test_validate_email_error(self):
-        with self.assertRaises(ValidationError):
-            validate_email('gabrielgattini659@hotmail.com')
+        invalid_emails = ['gabrielgattini659@hotmail.com', ' ', '@gmail.com', 'gabrielgattini659@gmail']
+        for email in invalid_emails:
+            with self.assertRaises(ValidationError, msg=f"Email '{email}' should raise ValidationError"):
+                validate_email(email)
 
-        with self.assertRaises(ValidationError):
-            validate_email(' ')
-
-        with self.assertRaises(ValidationError):
-            validate_email('@gmail.com')
-
-        with self.assertRaises(ValidationError):
-            validate_email('gabrielgattini659@gmail')
-
-    
     def test_validate_cpf_success(self):
         cpf = '03741308099'
-        self.assertEqual(validate_cpf(cpf))
+        try:
+            validate_cpf(cpf)
+            print(f"CPF '{cpf}' passed validation.")  # Debug info
+        except ValidationError as e:
+            print(f"CPF '{cpf}' failed validation: {e}")
+            raise
 
     def test_validate_cpf_error(self):
-        with self.assertRaises(ValidationError):
-            validate_cpf('0374130809')
+        invalid_cpfs = ['0374130809', '000000000000', ' ']
+        for cpf in invalid_cpfs:
+            with self.assertRaises(ValidationError, msg=f"CPF '{cpf}' should raise ValidationError"):
+                validate_cpf(cpf)
 
-        with self.assertRaises(ValidationError):
-            validate_cpf('000000000000')
 
-        with self.assertRaises(ValidationError):
-            validate_cpf(' ')

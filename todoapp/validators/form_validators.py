@@ -1,10 +1,11 @@
 from validate_docbr import CPF
 from django.core.exceptions import ValidationError
+from django.contrib.messages import constants as messages
 
 def validate_name(name):
-    if not name or len(name.strip().split()) <= 1:
+    if not name or len(name.split()) <= 1:
         raise ValidationError('Enter your full name')
-    return name.strip()
+    return name
 
 def validate_cpf(cpf):
     cpf_obj = CPF()

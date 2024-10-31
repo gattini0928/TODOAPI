@@ -1,6 +1,6 @@
 import os
 from pathlib import Path
-from django.contrib.messages import constants as messages
+from django.contrib import messages
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -11,7 +11,6 @@ SECRET_KEY = 'django-insecure-gtl0&t7#sf*k+0v(*3t9agix%=zn(12n$$3j8-sxucg2^#jio7
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 INSTALLED_APPS = [
     'django.contrib.admin',

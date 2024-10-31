@@ -6,12 +6,11 @@ from django.core.exceptions import ValidationError
 from django.http import JsonResponse
 from django.contrib import messages
 from datetime import datetime
-from django.views.generic import FormView
+from .forms import SignUpForm
 from .validators.form_validators import *
 from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth.models import User
 from .models import UserProfile
-from .forms import SignupForm
 
 def homepage(request):
     return render(request, 'homepage.html')
@@ -35,7 +34,7 @@ def add_task(request):
                 except ValueError:
                     messages.error(request, 'Invalid format for due_date. Use YYYY-MM-DD.')
                     return redirect('homepage') 
-            else:
+            else:   
                 due_date = due_date_str
             todo = TodoManager()
             try:
@@ -67,7 +66,7 @@ def remove_task(request):
                 messages.success(request,f'Task {task_name} removed successfully')
                 return redirect('homepage')
             except Exception as e:
-                messages.error(request,f'Failed to remove a task: {str(e)}')
+                messages.success(request,f'Failed to remove a task: {str(e)}')
                 return redirect('homepage')
     return render(request, 'homepage.html')
 
@@ -105,43 +104,40 @@ def signin(request):
                     messages.error(request,f'User or password invalid')
                     return redirect('signin')
             except ValidationError as e:
-                messages.error(request, e.message)
+                messages.success(request, e.message)
                 return redirect('signin')
             
     return render(request, 'signin.html')
 
 def signup(request):
     if request.method == 'POST':
-        data = request.POST.dict()
-        name = data.get('name')
-        cpf = data.get('cpf')
-        email = data.get('email')
-        password = data.get('password')
-        print(data)
-        if data:
-            try:
-                validate_name(name)
-                validate_cpf(cpf)
-                validate_name(email)
-                validate_password(password)
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            # Data
+            name = form.cleaned_data['name']
+            email = form.cleaned_data['email']
+            cpf = form.cleaned_data['cpf']
+            password = form.cleaned_data['password']
 
-                if User.objects.filter(username=email).exists():
-                    messages.error(request, 'User already exists')
-                    return redirect('signup')
-                else:
-                    user = User.objects.create_user(username=email, password=password)
-                    user.save()
-                    user = authenticate(username=email, password=password)
-                    todo_user = UserProfile.objects.create(name=name, email=email, cpf=cpf)
-                    todo_user.save()
-                    login(request,user)
-                    messages.success(request, 'User created with success')
-                    return redirect('homepage')
-            except ValidationError as e:
-                messages.error(request, e.message)
+            # Verify if user already exists
+            if User.objects.filter(username=email).exists():
+                messages.success(request, f'{email} already exists')
                 return redirect('signup')
-            
-    return render(request, 'signup.html')
+            else:
+                # Creating user and todo_user
+                user = User.objects.create_user(username=email, password=password)
+                todo_user = UserProfile.objects.create(user=user, name=name, email=email, cpf=cpf) # Associating user
+                user.save()
+                todo_user.save()
+
+                user = authenticate(username=email, password=password)
+                login(request, user)
+                messages.success(request, f'User {user.username} created with success, Welcome!')
+                return redirect('homepage')
+    else:
+        form = SignUpForm()  # If FORM is not POST
+
+    return render(request, 'signup.html', {'form': form})
 
 @login_required
 def logout(request):

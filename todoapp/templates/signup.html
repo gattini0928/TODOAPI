@@ -22,29 +22,56 @@
             <form action="{% url 'signup' %}" method="post">
                 {% csrf_token %}
                 <div class="form-inputs-labels">
-                    {% if form.errors.name %}
-                    <ul class="container-form-errors">
-                        {% for error in form.erros.name %}
-                            <li class="form-error">
-                                {{error}}
-                                {% endfor %}
-                            </li>
-                    </ul>
-                    {% endif %}
                     <label for="name">Name</label>
                     <input type="text" name="name">
+                    {% if form.errors.name %}
+                    <ul class="container-form-errors">
+                        {% for error in form.errors.name %}
+                            <li class="form-error">
+                                {{error}}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
                 </div>
                 <div class="form-inputs-labels">
-                    <label for="email">E-mail</label>
+                    <label for="email">Email</label>
                     <input type="email" name="email">
+                    {% if form.errors.email %}
+                    <ul class="container-form-errors">
+                        {% for error in form.errors.email %}
+                            <li class="form-error">
+                                {{error}}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
                 </div>
                 <div class="form-inputs-labels">
                     <label for="cpf">CPF</label>
                     <input type="text" name="cpf">
+                    {% if form.errors.cpf %}
+                    <ul class="container-form-errors">
+                        {% for error in form.errors.cpf %}
+                            <li class="form-error">
+                                {{error}}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
                 </div>
                 <div class="form-inputs-labels">
                     <label for="password">Password</label>
                     <input type="password" name="password">
+                    {% if form.errors.password %}
+                    <ul class="container-form-errors">
+                        {% for error in form.errors.password %}
+                            <li class="form-error">
+                                {{error}}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
                 </div>
                 <button type="submit">Submit</button>
                 <p>Already have a account? <a class="a-forms" href="{% url 'signin' %}">Login Here</a></p>

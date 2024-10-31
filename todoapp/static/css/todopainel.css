@@ -28,8 +28,16 @@
     flex-wrap: wrap;
 }
 
-ul{
+ul {
+    max-width: 600px;
+    width: 80%;
+    margin: 0 auto;
+}
+
+li {
     list-style: none;
+    padding: 1rem;
+    width: 80%;
 }
 
 hr {

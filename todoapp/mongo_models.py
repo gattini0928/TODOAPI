@@ -10,7 +10,7 @@ class TodoManager:
         self.db = db
         self.collection = self.db['tasks']
 
-    def add_task(self, task_name, category, priority, created_at=None, due_date=None, status='Pending'):
+    def add_task(self, task_name, category, priority, user_id,created_at=None, due_date=None, status='Pending'):
         # Define created_at with actual date
         created_at = created_at or datetime.now()
 
@@ -21,6 +21,7 @@ class TodoManager:
                 raise ValueError('Formato de data inválido')
 
         task = {
+            'user_id':str(user_id),
             'task_name': task_name,
             'category': category,
             'priority': priority,
@@ -31,9 +32,9 @@ class TodoManager:
         self.collection.insert_one(task)
         print(f'{task_name} success')
 
-    def remove_task(self, task_name):
+    def remove_task(self, task_name, user_id):
         try:
-            result = self.collection.delete_one({'task_name':task_name})
+            result = self.collection.delete_one({'task_name':task_name, 'user_id':str(user_id)})
             if result.deleted_count > 0:
                 print(f'{task_name} removed from tasks')
             else:
@@ -41,18 +42,18 @@ class TodoManager:
         except Exception as e:
             print(f'Error removing task: {str(e)}')
         
-    def finish_task(self, task_id):
+    def finish_task(self, task_id, user_id):
         try:
             self.collection.update_one(
-                {'_id':ObjectId(task_id)},
+                {'_id':ObjectId(task_id), 'user_id':{str(user_id)}},
                 {'$set':{'status':'Finished'}}
             )
             print('Task finished with success')
         except Exception as e:
             print(f'Error updating task {str(e)}')
 
-    def tasks_list(self):
-        tasks = list(self.collection.find({}, {"_id": 1, "task_name": 1, "category": 1,'priority':1 , "created_at": 1 , 'due_date':1, "status": 1,}))
+    def tasks_list(self, user_id):
+        tasks = list(self.collection.find({'user_id':user_id}, {"_id": 1,"task_name": 1, "category": 1,'priority':1 , "created_at": 1 , 'due_date':1, "status": 1,}))
         for task in tasks:
             task['id'] = str(task.pop('_id'))
         tasks_formatted = self.format_tasks_list(tasks)

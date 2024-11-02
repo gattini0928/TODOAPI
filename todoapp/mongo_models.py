@@ -52,6 +52,29 @@ class TodoManager:
         except Exception as e:
             print(f'Error updating task {str(e)}')
 
+    def finished_filter_tasks(self, status):
+        pending_tasks = list(self.collection.find({"status":'Pending'}))
+        finished_tasks = list(self.collection.find({"status":'Finished'}))
+        if status == 'finished':
+            return finished_tasks
+        elif status == 'pending':
+            return pending_tasks
+
+    def filter_by_category(self, category):
+        categories_find = self.collection.find({'category':category})
+        if categories_find:
+            print('Tasks Found')
+            return categories_find
+        else:
+            print('Tasks not found')
+    def order_by_asc_dsc(self, direction):
+        sort_order = 1 if direction == 'ascending' else -1
+        return list(self.collection.find().sort('name', sort_order))
+    
+    def order_by_date(self, direction):
+        sort_order = 1 if direction == 'ascending' else -1
+        return list(self.collection.find().sort('created_at', sort_order))
+
     def tasks_list(self, user_id):
         tasks = list(self.collection.find({'user_id':user_id}, {"_id": 1,"task_name": 1, "category": 1,'priority':1 , "created_at": 1 , 'due_date':1, "status": 1,}))
         for task in tasks:

@@ -5,6 +5,14 @@
     <link rel="stylesheet" href="{% static 'css/todopainel.css' %}">
 {% endblock %}
 {% block content %}
+    <div class="container-sub-navbar">
+        <nav class="sub-navbar">
+            <a href="{% url 'sorted_tasks' %}?direction=ascending">Order by Ascending</a>
+            <a href="{% url 'sorted_tasks' %}?direction=descending">Order by Descending</a>
+            <a href="{% url 'category_filter' %}">Order By Category</a>
+            <a href="{% url 'order_by_date' %}">Order by Created Date</a>
+        </nav>
+    </div>
     <h1>Your Tasks</h1>
     <div class="container-tasks">
         {% if tasks %}

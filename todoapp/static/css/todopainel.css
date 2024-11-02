@@ -1,4 +1,29 @@
 
+.container-sub-navbar{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    margin: 0 auto;
+    max-width: 800px;
+    width: 80%;
+    padding: 1rem;
+    background-color: rgb(23, 23, 23);
+    border-radius: 0.3rem;    
+}
+
+
+.sub-navbar a {
+    font-size: 1.4rem;
+    text-decoration: none;
+    font-weight: 600;
+    color: white;
+}
+
+.sub-navbar a:hover {
+    color: rgb(10, 145, 82);
+}
+
 .container-tasks {
     display: flex;
     align-items: center;
